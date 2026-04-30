@@ -9,7 +9,7 @@ Generate ONLY a Dockerfile for a Java JAR application.
 
 Requirements:
 - Use OpenJDK light weight image
-- Copy app.jar into container
+- Copy app.jarlocal into container
 - Run: java -jar app.jar
 - Expose port 8080
 """
