@@ -45,7 +45,7 @@ def clean_dockerfile(text):
 
 def generate_dockerfile():
     response = ollama.chat(
-        model='llama3.1:1b',
+        model='llama3.2:1b',
         messages=[{'role': 'user', 'content': PROMPT}]
     )
     return response['message']['content']
