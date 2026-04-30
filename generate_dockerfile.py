@@ -6,18 +6,19 @@ import sys
 IMAGE_NAME = "vineethmathangi95/python:ollama"
 JAR_NAME = "app.jar"
 
-PROMPT = f"""
-Generate ONLY a Dockerfile for a Java JAR application.
+PROMPT = """
+You are a Docker expert.
 
-Requirements:
-- Use Eclipse Temurin JDK 17 (NOT openjdk 8 or alpine old images)
-- Copy app.jar into container
+Generate ONLY a Dockerfile for Java JAR app.
+
+STRICT RULES:
+- ONLY use this base image: eclipse-temurin:17-jdk
+- NEVER change or invent base image names
+- NEVER use openjdk or eclipse:*
+- Copy app.jar
 - Run: java -jar app.jar
 - Expose port 8080
-
-IMPORTANT:
-- Do NOT use deprecated images like openjdk:8-jdk-alpine
-- Output ONLY valid Dockerfile
+- Output ONLY Dockerfile (no markdown, no text)
 """
 
 
