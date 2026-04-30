@@ -4,14 +4,18 @@ import shutil
 
 IMAGE_NAME = "vineethmathangi95/python:ollama"
 
-PROMPT = """
+PROMPT = f"""
 Generate ONLY a Dockerfile for a Java JAR application.
 
 Requirements:
-- Use OpenJDK light weight image
-- Copy app.jarlocal into container
+- Use Eclipse Temurin JDK 17 (NOT openjdk 8 or alpine old images)
+- Copy app.jar into container
 - Run: java -jar app.jar
 - Expose port 8080
+
+IMPORTANT:
+- Do NOT use deprecated images like openjdk:8-jdk-alpine
+- Output ONLY valid Dockerfile
 """
 
 def generate_dockerfile():
