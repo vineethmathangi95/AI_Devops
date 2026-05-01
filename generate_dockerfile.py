@@ -52,6 +52,21 @@ def generate_dockerfile():
     return response['message']['content']
 
 
+def scan_image_with_trivy(image_name):
+    print("\n🔍 Scanning image with Trivy...")
+
+    # This will FAIL (exit code 1) if HIGH/CRITICAL vulns found
+    scan_command = f"trivy image --exit-code 1 --severity HIGH,CRITICAL {image_name}"
+    scan_status = os.system(scan_command)
+
+    if scan_status != 0:
+        print("❌ Vulnerabilities found! Aborting push.")
+        return False
+
+    print("✔ No HIGH/CRITICAL vulnerabilities found.")
+    return True
+
+
 if __name__ == "__main__":
 
     # 1. Get jar path
@@ -85,7 +100,13 @@ if __name__ == "__main__":
         print("❌ Docker build failed. Stopping.")
         sys.exit(1)
 
-    # 7. Push image
+    # 7. 🔐 Scan image using Trivy (NEW STEP)
+    is_safe = scan_image_with_trivy(IMAGE_NAME)
+
+    if not is_safe:
+        sys.exit(1)
+
+    # 8. Push image (ONLY if scan passes)
     print("\nPushing image to Docker Hub...")
     push_status = os.system(f"docker push {IMAGE_NAME}")
 
@@ -93,4 +114,4 @@ if __name__ == "__main__":
         print("❌ Docker push failed.")
         sys.exit(1)
 
-    print("\n🚀 DONE: Image built and pushed successfully!")
+    print("\n🚀 DONE: Image built, scanned, and pushed successfully!")
